@@ -1,0 +1,237 @@
+.donation-icon {
+    text-align: center;
+    font-size: 50px;
+    color: #52796F; /* لون أيقونة التبرع */
+    animation: bounce 2s infinite alternate; /* حركة بسيطة */
+}
+
+/* ✅ حركة اهتزاز للأيقونة */
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-10px);
+    }
+}
+        :root {
+    --color1: #cad2c5;
+    --color2: #84A98C;
+    --color3: #52796F;
+    --color4: #354F52;
+    --white: #ffffff;
+}
+        body { 
+            background-color: #cad2c5; 
+            font-family: 'Arial', sans-serif; 
+            color: #2F3E46; 
+            margin: 0; 
+            padding: 0; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+        } 
+
+ 
+        nav {
+    background: rgba(255, 255, 255, 0.1); /* خلفية شفافة خفيفة */
+    backdrop-filter: blur(10px); /* تأثير الضبابية */
+    padding: 15px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+/* ✅ قائمة الروابط */
+.nav-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+}
+
+/* ✅ تنسيق كل عنصر */
+.nav-links li {
+    display: inline-block;
+}
+
+/* ✅ تصميم الأزرار */
+.nav-links li a {
+    text-decoration: none;
+    color: var(--white);
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 8px;
+    background: var(--color4); /* نفس اللون الغامق */
+    transition: all 0.3s ease-in-out;
+    display: inline-block;
+    font-size: 1em;
+    position: relative;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* ✅ تأثير عند تمرير الماوس */
+.nav-links li a:hover {
+    background: linear-gradient(135deg, var(--color3), var(--color2)); /* تدرج بلون أفتح */
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ✅ إضافة خط تحت العنصر عند التمرير */
+.nav-links li a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -3px;
+    width: 0;
+    height: 2px;
+    background: var(--color2); /* اللون الفاتح */
+    transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+}
+
+.nav-links li a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+/* ✅ تحسين التصميم للأجهزة الصغيرة */
+@media (max-width: 768px) {
+    .nav-links {
+        gap: 8px;
+    }
+
+    .nav-links li a {
+        padding: 8px 14px;
+        font-size: 0.9em;
+    }}
+ 
+        .container {
+    margin-top: 80px; /* تعديل هذه القيمة بناءً على ارتفاع شريط التنقل */
+    margin-bottom: 20px;
+    width: 600px;
+    background: white;
+    padding: 15px 20px; /* تقليل التباعد الداخلي من الأعلى والأسفل */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin: 140px auto 20px auto; /* تقليل المسافة بين الفوتر والمربع */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* عدم تمديد العناصر داخل المربع */
+    align-items: center;
+    height: auto; /* جعل الطول متغير حسب المحتوى */
+    max-height: 450px; /* تحديد الحد الأقصى للطول */
+}
+           
+.success-message {
+    display: none; /* إخفاء الرسالة في البداية */
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 18px;
+    width: 400px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+    /* ✅ توسيط الرسالة في منتصف الصفحة */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* ✅ عند ظهور رسالة النجاح، نخفي المربع الأبيض */
+.hidden {
+    display: none !important;
+}
+ 
+        h2 { 
+            text-align: center; 
+            color: #354F52; 
+        } 
+ 
+        .form-group { 
+            margin-bottom: 15px; 
+        } 
+ 
+        .form-group label { 
+            display: block; 
+            margin-bottom: 5px; 
+        } 
+ 
+        .form-group input { 
+            width: 120%; 
+            height: 40px;;
+            padding: 10px; 
+            font-size: 16px; 
+            border: 1px solid #ccc;
+            border-radius: 16px;
+            box-sizing: border-box;
+        } 
+ 
+        .button-group { 
+            text-align: center; 
+            margin-top: 20px; 
+        } 
+ 
+        .button-group button { 
+            padding: 12px 20px; 
+            background-color: #84A98C; 
+            color: white; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            transition: background-color 0.3s; 
+        } 
+ 
+        .button-group button:hover { 
+            background-color: #52796F; 
+        } 
+ 
+        /* ✅ تنسيق الفوتر ليكون ثابتًا في الأسفل */ 
+        /* ✅ ضبط الفوتر ليبقى في الأسفل فقط عند الحاجة */
+footer {
+    background: #2F3E46;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 15px;
+    font-size: 20px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px; /* تحديد ارتفاع مناسب للفوتر */
+    margin-top: 200px;
+}
+
+/* ✅ تأكد من أن المحتوى يملأ الشاشة ولا يترك فراغًا كبيرًا */
+body {
+    display: flex;
+    flex-direction: column;
+   
+    flex-direction: column;
+
+}
+
+        
+ 
+        /* ✅ تنسيق رسالة التأكيد */ 
+        .success-message { 
+            display: none; 
+            color: #155724; 
+            background-color: #d4edda; 
+            border: 1px solid #c3e6cb; 
+            padding: 10px; 
+            border-radius: 6px; 
+            text-align: center; 
+            margin-top: 15px; 
+        } 

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Request</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="order.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about us.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+                <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login /Sign Up</a></li>
+                <li><a href="donate-medicine.html"><i class="fas fa-pills"></i> Donate Medicine</a></li>
+                <li><a href="order.html"><i class="fas fa-hand-holding-medical"></i> Request Medicine</a></li>
+                <li><a href="donate.html"><i class="fas fa-donate"></i> Donate Money</a></li>
+                <li><a href="FAQs - Medicine Donation.html"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                <li><a href="contact us.html"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                <li><a href="admin.html"><i class="fas fa-user-shield"></i> ADMIN</a></li>
+            </ul>
+        </nav>
+    </header>
+       
+    
+
+    <main>
+        <h1>Request Medicines</h1>
+</main>
+<main>
+        <!-- 🔍 Search Box -->
+        <input type="text" id="search-box" placeholder="Search for medicine..." onkeyup="searchMedicine()">
+        <script src="search.js"> </script>
+
+    </main>
+        <main>
+          <!-- Product Grid -->
+    
+       
+   
+        
+          <div class="product-container" id="medicine-list">
+            <!-- سيتم تعبئة الأدوية هنا بواسطة الجافاسكربت -->
+        </div>
+        
+     
+    </main>
+    
+
+    <main>
+        <h2>Medicines in your cart</h2>
+        <div id="cart-items"></div>
+        <button class="button-checkout" onclick="checkout()">checkout </button>
+    </main>
+    <script src="cart.js"></script>
+
+
+</main>
+
+<!-- ✅ نافذة الطلب -->
+<div id="checkout-popup" class="popup hidden">
+    <form id="checkout-form">
+        <h2>Complete Your Request</h2>
+        <input type="text" id="full-name" placeholder="Full Name" required>
+        <input type="text" id="contact" placeholder="Phone Number or Email" required>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<!-- ✅ رسالة النجاح -->
+<div id="success-message" class="success-message">
+    Request submitted successfully. We will contact you  ✅
+
+</div>
+<!-- ✅ رسالة في حالة السلة الفارغة -->
+<div id="empty-cart-message" class="success-message" style="background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24;">
+    Your cart is empty. Please add items before checking out ❗
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        fetchMedicines();
+    });
+    
+    function fetchMedicines() {
+        fetch('http://127.0.0.1/login_system/display_medicines.php') // حطي هنا اسم ملف الـ PHP اللي كتبتيه
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('medicine-list').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error fetching medicines:', error);
+            });
+    }
+    </script>
+    
+<script>
+function checkout() {
+    const cartItems = document.querySelectorAll('#cart-items .cart-item');
+
+    if (cartItems.length === 0) {
+        // ✅ السلة فارغة
+        document.getElementById("empty-cart-message").style.display = "block";
+        setTimeout(() => {
+            document.getElementById("empty-cart-message").style.display = "none";
+        }, 2000);
+        return;
+    }
+
+    // ✅ السلة تحتوي على عناصر - عرض نافذة الطلب
+    document.getElementById("checkout-popup").classList.remove("hidden");
+}
+
+document.getElementById("checkout-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("full-name").value.trim();
+    const contact = document.getElementById("contact").value.trim();
+
+    if (!name || !contact) {
+        alert("Please enter your full name and contact info.");
+        return;
+    }
+    const medicines = [];
+document.querySelectorAll('#cart-items .cart-item').forEach(item => {
+    const medicineName = item.getAttribute('data-medicine-name'); // أخذنا الاسم من الخاصية
+    if (medicineName) {
+        medicines.push(medicineName.trim());
+    }
+});
+
+console.log(medicines); // إضافة هذا السطر للتحقق من محتوى المصفوفة قبل الإرسال
+
+
+
+    fetch('http://127.0.0.1/login_system/submit_order.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            fullName: name,
+            contact: contact,
+            medicines: medicines
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            // يتم إخفاء نافذة الدفع
+            document.getElementById("checkout-popup").classList.add("hidden");
+            document.getElementById("success-message").style.display = "block";
+            setTimeout(() => {
+                document.getElementById("success-message").style.display = "none";
+                document.getElementById("checkout-form").reset();
+                document.getElementById("cart-items").innerHTML = ""; // تفريغ السلة بعد الطلب
+            }, 2000);
+        } else {
+            alert("Failed to submit order. Please try again.");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("An error occurred while submitting your order.");
+    });
+});
+  
+</script>
+<footer>
+    <p>© 2025 Your Charity Pharmacy. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>

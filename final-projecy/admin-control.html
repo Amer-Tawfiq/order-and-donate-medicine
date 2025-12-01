@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin-control.css">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav>
+  <ul class="nav-links">
+    <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+    <li><a href="about us.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+    <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login /Sign Up</a></li>
+    <li><a href="donate-medicine.html"><i class="fas fa-pills"></i> Donate Medicine</a></li>
+    <li><a href="order.html"><i class="fas fa-hand-holding-medical"></i> Request Medicine</a></li>
+    <li><a href="donate.html"><i class="fas fa-donate"></i> Donate Money</a></li>
+    <li><a href="FAQs - Medicine Donation.html"><i class="fas fa-question-circle"></i> FAQ</a></li>
+    <li><a href="contact us.html"><i class="fas fa-envelope"></i> Contact Us</a></li>
+    <li><a href="admin.html"><i class="fas fa-user-shield"></i> ADMIN</a></li>
+  </ul>
+</nav>
+
+<!-- Dashboard -->
+<div class="dashboard">
+  <header>
+    <h1><i class="fas fa-user-shield"></i> Admin Page</h1>
+  </header>
+
+  <!-- Notifications -->
+  <!-- <div class="section notification-container">
+    <h3><i class="fas fa-bell"></i> Notifications</h3>
+    <div id="feedback-list"></div>
+  </div> -->
+  <div class="section">
+    <h3><i class="fas fa-comments"></i> Notifications</h3>
+    <div style="color: black;" id="notifications">
+        <!-- التعليقات ستظهر هنا -->
+    </div>
+</div>
+<style>
+  .order-box {
+    color: black; /* تغيير لون الخط إلى الأسود */
+}
+
+</style>
+  <!-- Manage Requests Section (Fetched dynamically) -->
+  <div class="section">
+    <h3><i class="fas fa-tasks"></i> Manage Donations</h3>
+    <div id="requests">
+      <!-- Dynamic requests will appear here -->
+    </div>
+  </div>
+
+  <!-- Manage Feedback Section -->
+  <div class="section">
+    <h3><i class="fas fa-comments"></i> Manage Feedback</h3>
+    <div id="admin-feedback-list">
+    </div>
+  </div>
+  <!-- Manage Customer Orders Section -->
+   <link rel="stylesheet" href="order-box.css">
+<div class="section">
+  <h3><i class="fas fa-shopping-cart"></i> Manage Customer Orders</h3>
+  <div id="customer-orders">
+    <!-- بيانات الطلبات تظهر هنا -->
+  </div>
+</div>
+
+  <!-- Add Medication Form -->
+  <section>
+    <h3><i class="fas fa-pills"></i> Add Medication</h3>
+    <form id="donation-form" action="http://127.0.0.1/login_system//add_drug.php" method="POST" enctype="multipart/form-data">
+      <label for="name">Medication Name:</label>
+      <input type="text" id="name" name="name" required>
+      
+      <label for="image">Medication Image:</label>
+      <input type="file" id="image" name="image" accept="image/*" required>
+
+      <button type="submit">Add Medication</button>
+    </form>
+  </section>
+
+</div>
+<div id="success-message" class="success-message"> 
+  Done Add Medicine successfully! ✅ 
+</div> 
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      function loadFeedback() {
+          fetch('http://127.0.0.1/login_system/get_feedback.php')
+              .then(response => response.json())
+              .then(data => {
+                  const adminFeedbackList = document.getElementById('admin-feedback-list');
+                  adminFeedbackList.innerHTML = ''; // مسح التعليقات القديمة
+  
+                  data.forEach(feedback => {
+                  console.log(feedback); // عرض الكائن بالكامل
+                  if (feedback.user_name && feedback.comment && feedback.rating != "0") {
+                      const adminBox = document.createElement('div');
+                      adminBox.className = 'admin-feedback-box fade-in';
+                      adminBox.innerHTML = `
+                          <p class="user-name" style="color: black;"><strong>${feedback.user_name}</strong></p>
+                          <p style="color: black;">${feedback.comment}</p>
+                          <p class="stars">${'⭐'.repeat(feedback.rating)}</p>
+                          <button class="delete-btn" data-id="${feedback.id}" style="margin-top: 10px;">
+                              <i class="fas fa-trash"></i> Delete
+                          </button>
+                      `;
+                      adminFeedbackList.appendChild(adminBox);
+                  }
+              });
+
+              })
+              .catch(error => console.error('Error loading feedback:', error));
+      }
+  
+      const adminFeedbackList = document.getElementById('admin-feedback-list');
+  
+      // حذف العنصر عند الضغط على زر الحذف
+      adminFeedbackList.addEventListener('click', function (e) {
+    if (e.target.closest('.delete-btn')) {
+        const button = e.target.closest('.delete-btn');
+        const feedbackId = button.getAttribute('data-id');
+
+        if (confirm('Are you sure you want to delete this feedback?')) {
+            fetch('http://127.0.0.1/login_system/delete_feedback.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: feedbackId })
+            })
+            .then(response => response.text())
+            .then(result => {
+              console.log('Deleting feedback with ID:', feedbackId);
+   
+              console.log('Server response:', result);
+                if (result.trim() === 'success') {
+                    button.closest('.admin-feedback-box').remove(); // نحذف من الواجهة
+                    alert('Feedback deleted successfully.');
+                } else {
+                    alert('Failed to delete feedback.');
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting feedback:', error);
+                alert('Error occurred while deleting.');
+            });
+        }
+    }
+});
+
+      loadFeedback();
+  });
+  </script>
+<script>
+ document.addEventListener("DOMContentLoaded", function () {
+  fetch("http://127.0.0.1/login_system/admin_requests.php")
+    .then(response => response.json())
+    .then(data => {
+      const requestsContainer = document.querySelector("#requests");
+      requestsContainer.innerHTML = ""; // مسح الطلبات القديمة
+
+      data.forEach(req => {
+        const item = document.createElement("div");
+        item.className = "request-item";
+
+        item.innerHTML = `
+          <p><i class="fas fa-pills"></i> ${req.name} (${req.quantity} box(es)) </p>
+          <p><strong>Requested by:</strong> ${req.user_name}</p> <!-- عرض اسم المستخدم هنا -->
+          <div class="buttons">
+            <button class="approve" onclick="handleApprove(${req.id}, this)">✅ Accept</button>
+            <button class="reject" onclick="showReasonInput(this)">❌ Reject</button>
+          </div>
+          <input type="text" class="reason-input" placeholder="Enter reason..." style="display:none" onkeypress="handleReject(event, this, ${req.id})">
+          <div class="status"></div>
+        `;
+        requestsContainer.appendChild(item);
+      });
+    });
+});
+
+
+
+  function handleApprove(id, button) {
+    const formData = new FormData();
+    formData.append("id", id);
+    formData.append("action", "approve");
+
+    fetch("http://127.0.0.1/login_system/process_request.php", {
+      mode: "no-cors",
+      method: "POST",
+      body: formData
+    }).then(() => {
+      button.closest(".request-item").querySelector(".status").textContent = "✅ Approved";
+      button.parentElement.style.display = "none";
+      showNotification("Request has been approved ✅", "success");
+    });
+  }
+
+  function showReasonInput(button) {
+    const input = button.closest(".request-item").querySelector(".reason-input");
+    input.style.display = "block";
+    input.focus();
+  }
+
+  function handleReject(event, inputField, id) {
+    if (event.key === "Enter" && inputField.value.trim() !== "") {
+      const reason = inputField.value.trim();
+      const formData = new FormData();
+      formData.append("id", id);
+      formData.append("action", "reject");
+      formData.append("reason", reason);
+
+      fetch("http://127.0.0.1/login_system/process_request.php", {
+        method: "POST",
+        body: formData
+      }).then(response => response.json())
+.then(result => {
+  inputField.closest(".request-item").querySelector(".status").textContent = `❌ Rejected (${reason})`;
+  inputField.style.display = "none";
+  showNotification(result.message, "error");
+})
+    }
+  }
+
+  function deleteFeedback(button) {
+    button.closest(".feedback-item").remove();
+    showNotification("Feedback was deleted 🗑", "warning");
+  }
+
+  function showNotification(message, type = "info") {
+    const notification = document.getElementById("notification");
+    let icon = "";
+
+    switch (type) {
+      case "success": icon = '<i class="fas fa-check-circle"></i>'; break;
+      case "error": icon = '<i class="fas fa-times-circle"></i>'; break;
+      case "warning": icon = '<i class="fas fa-exclamation-circle"></i>'; break;
+      case "info": icon = '<i class="fas fa-info-circle"></i>'; break;
+    }
+
+    notification.innerHTML = `${icon} <strong>${message}</strong>`;
+    notification.className = `notification-${type}`;
+    notification.style.display = "block";
+    setTimeout(() => notification.style.display = "none", 3000);
+  }
+</script>
+
+<script>
+  document.getElementById("donation-form").addEventListener("submit", async function(event) {
+      event.preventDefault(); // ✅ منع الإرسال التقليدي
+  
+      const form = event.target;
+      const formData = new FormData(form);
+  
+      try {
+          const response = await fetch('http://127.0.0.1/login_system//add_drug.php', {
+              method: 'POST',
+              body: formData
+          });
+  
+          const result = await response.text(); // ✅ الآن هذا يعمل بدون no-cors
+          console.log(result);
+  
+          if (result.includes("✅")) {
+              // ✅ إخفاء النموذج
+              document.querySelector(".dashboard").classList.add("hidden");
+  
+              // ✅ عرض الرسالة
+              const msg = document.getElementById("success-message");
+              msg.style.display = "block";
+  
+              // ✅ إعادة عرض النموذج بعد ثانيتين
+              setTimeout(() => {
+                  msg.style.display = "none";
+                  document.querySelector(".dashboard").classList.remove("hidden");
+                  form.reset(); // تفريغ النموذج
+              }, 2000);
+          } else {
+              alert(result); // في حالة وجود رسالة خطأ
+          }
+  
+      } catch (error) {
+          console.error('❌ حدث خطأ أثناء الإرسال:', error);
+          alert('❌ حدث خطأ أثناء الإرسال.');
+      }
+  });
+  </script>
+
+<div class="section">
+  <h3><i class="fas fa-shopping-cart"></i> Manage Customer Orders</h3>
+  <div id="customer-orders">
+    <!-- بيانات الطلبات تظهر هنا -->
+  </div>
+</div>
+
+<div id="notification" style="display:none;"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    function loadCustomerOrders() {
+        fetch("http://127.0.0.1/login_system/fetch_orders.php")
+            .then(response => response.json())
+            .then(data => {
+                const ordersContainer = document.getElementById('customer-orders');
+                ordersContainer.innerHTML = ''; // تفريغ المحتوى القديم
+
+                if (data.length === 0) {
+                    ordersContainer.innerHTML = '<p>No customer orders found.</p>';
+                    return;
+                }
+
+                data.forEach(order => {
+                    const orderBox = document.createElement('div');
+                    orderBox.className = 'order-box fade-in';
+                    orderBox.innerHTML = `
+                        <h4>Customer: ${order.customer_name}</h4>
+                        <p>Contact Info: ${order.contact_info}</p>
+                        <p>Medicines: ${order.medicines}</p>
+                        <div class="buttons">
+                            <button class="approve" onclick="approveOrder(${order.id}, this)">✅ Accept</button>
+                            <button class="reject" onclick="showRejectReason(this, ${order.id})">❌ Reject</button>
+                        </div>
+                        <input type="text" class="reason-input" placeholder="Enter reason..." style="display:none" onkeypress="rejectOrder(event, this, ${order.id})">
+                        <div class="order-status"></div>
+                    `;
+                    ordersContainer.appendChild(orderBox);
+                });
+            })
+            .catch(error => console.error('Error loading customer orders:', error));
+    }
+
+    loadCustomerOrders();
+});
+
+function approveOrder(id, button) {
+    const formData = new FormData();
+    formData.append("id", id);
+    formData.append("action", "approve");
+
+    fetch("http://127.0.0.1/login_system/process_customer_order.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'success') {
+            button.closest(".order-box").querySelector(".order-status").textContent = "✅ Approved";
+            
+            // إخفاء زر الموافقة
+            button.style.display = "none"; 
+            
+            // إخفاء زر الرفض
+            const rejectButton = button.closest(".order-box").querySelector(".reject");
+            if (rejectButton) {
+                rejectButton.style.display = "none";
+            }
+            
+            showNotification(result.message, "success");
+        } else {
+            showNotification(result.message, "error");
+        }
+    })
+    .catch(error => {
+        console.error('Error approving order:', error);
+        showNotification("Failed to approve the order", "error");
+    });
+}
+
+// ✅ دالة إظهار حقل سبب الرفض
+function showRejectReason(button, id) {
+    const input = button.closest(".order-box").querySelector(".reason-input");
+    input.style.display = "block";
+    input.focus();
+}
+
+function rejectOrder(event, inputField, id) {
+    if (event.key === "Enter" && inputField.value.trim() !== "") {
+        const reason = inputField.value.trim();
+
+        const formData = new FormData();
+        formData.append("id", id);
+        formData.append("action", "reject");
+        formData.append("reason", reason);
+
+        fetch("http://127.0.0.1/login_system/process_customer_order.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(result => {
+            console.log('Server response:', result);
+
+            if (result.status === 'success') {
+                // تم الحذف بنجاح - نحذف الطلب من الواجهة
+                inputField.closest(".order-box").remove();
+                showNotification(`Order rejected successfully.`, "error");
+            } else {
+                // السيرفر رجع خطأ
+                showNotification(`Failed to reject order: ${result.message}`, "error");
+            }
+        })
+        .catch(error => {
+            console.error('Error rejecting order:', error);
+            showNotification("Failed to reject the order.", "error");
+        });
+    }
+}
+
+// ✅ دالة عرض الإشعار
+function showNotification(message, type = "info") {
+    const notification = document.getElementById("notification");
+    let icon = "";
+
+    switch (type) {
+        case "success": icon = '<i class="fas fa-check-circle"></i>'; break;
+        case "error": icon = '<i class="fas fa-times-circle"></i>'; break;
+        case "warning": icon = '<i class="fas fa-exclamation-circle"></i>'; break;
+        case "info": icon = '<i class="fas fa-info-circle"></i>'; break;
+    }
+
+    notification.innerHTML = `${icon} <strong>${message}</strong>`;
+    notification.className = `notification-${type}`;
+    notification.style.display = "block";
+    setTimeout(() => notification.style.display = "none", 3000);
+}
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      function loadNotifications() {
+          Promise.all([
+              fetch('http://127.0.0.1/login_system/get_feedback.php'),
+              fetch('http://127.0.0.1/login_system/admin_requests.php')
+          ])
+          .then(responses => Promise.all(responses.map(response => response.json())))
+          .then(([feedbackData, requestsData]) => {
+              const notificationsContainer = document.getElementById('notifications');
+              notificationsContainer.innerHTML = '';
+  
+              function createNotification(content) {
+                  const notification = document.createElement('div');
+                  notification.className = 'notification-item';
+                  notification.innerHTML = `
+                      ${content}
+                      <button class="delete-btn" onclick="this.parentElement.remove()">
+                          <i class="fas fa-trash"></i>
+                      </button>
+                  `;
+                  notificationsContainer.appendChild(notification);
+              }
+  
+              if (feedbackData && feedbackData.length > 0) {
+                  feedbackData.forEach(feedback => {
+                      createNotification(`
+                          <i class="fas fa-comment"></i> 
+                          New feedback from <strong>${feedback.user_name}</strong>: "${feedback.comment}"
+                      `);
+                  });
+              }
+  
+              if (requestsData && requestsData.length > 0) {
+                  requestsData.forEach(request => {
+                      createNotification(`
+                          <i class="fas fa-hand-holding-medical"></i> 
+                          New request for <strong>${request.name}</strong> (${request.quantity} boxes)
+                      `);
+                  });
+              }
+  
+              if (feedbackData.length === 0 && requestsData.length === 0) {
+                  createNotification(`
+                      <i class="fas fa-info-circle"></i> No new notifications
+                  `);
+              }
+          })
+          .catch(error => console.error('Error loading notifications:', error));
+      }
+  
+      loadNotifications();
+  });
+  </script>
+<footer>
+  <p>© 2025 Your Charity Pharmacy. All Rights Reserved.</p>
+</footer>
+</body>
+</html>

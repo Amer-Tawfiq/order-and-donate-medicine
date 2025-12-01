@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        :root {
+            --color1: #CAD2C5;
+            --color2: #84A98C;
+            --color3: #52796F;
+            --color4: #2F3E46;
+            --green-dark: #1B4332;
+            --white: #FFFFFF;
+        }
+/* General page formatting */
+body {
+    font-family: 'Arial', sans-serif;
+    direction: ltr;
+    background: linear-gradient(135deg, #cad2c5, #84a98c);
+    margin: 0;
+    padding: 0;
+    color: #2F3E46;
+}
+
+nav {
+    background: rgba(255, 255, 255, 0.1); /* خلفية شفافة خفيفة */
+    backdrop-filter: blur(10px); /* تأثير الضبابية */
+    padding: 10px 0; /* تقليل المسافة الداخلية للـ nav */
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ قائمة الروابط */
+.nav-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px; /* تقليل المسافة بين العناصر */
+    padding: 0;
+    margin: 0;
+}
+
+/* ✅ تنسيق كل عنصر */
+.nav-links li {
+    display: inline-block;
+    margin: 0; /* إزالة المسافة بين العناصر */
+}
+
+/* ✅ تصميم الأزرار */
+.nav-links li a {
+    text-decoration: none;
+    color: var(--white);
+    font-weight: 600;
+    padding: 6px 10px; /* تقليل المسافة داخل الأزرار */
+    border-radius: 8px;
+    background: var(--color4); /* نفس اللون الغامق */
+    transition: all 0.3s ease-in-out;
+    display: inline-block;
+    font-size: 1em;
+    position: relative;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* ✅ تأثير عند تمرير الماوس */
+.nav-links li a:hover {
+    background: linear-gradient(135deg, var(--color3), var(--color2)); /* تدرج بلون أفتح */
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ✅ إضافة خط تحت العنصر عند التمرير */
+.nav-links li a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -3px;
+    width: 0;
+    height: 2px;
+    background: var(--color2); /* اللون الفاتح */
+    transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+}
+
+.nav-links li a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+/* ✅ تحسين التصميم للأجهزة الصغيرة */
+@media (max-width: 768px) {
+    .nav-links {
+        gap: 4px; /* تقليل المسافة أكثر في الأجهزة الصغيرة */
+    }
+
+    .nav-links li a {
+        padding: 6px 10px; /* تقليل المسافة داخل الأزرار */
+        font-size: 0.9em;
+    }
+}
+
+/* To avoid any problems with the list display when scrolling */
+body {
+    padding-top: 80px; /* تجنب التدخل مع الشريط الثابت */
+    background: linear-gradient(135deg, #cad2c5, #84a98c);
+}
+
+/* Page header */
+header h1 {
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 80px; /* يمكنك تعديل المسافة من أعلى الصفحة إذا أردت */
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Donation Fund Coordination */
+.donation-form-container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .donation-form-container h2 {
+            color: #52796F;
+            border-bottom: 2px solid #52796F;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+
+        .donation-form-container label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .donation-form-container input,
+        .donation-form-container select,
+        .donation-form-container button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .donation-form-container button {
+            background-color: #52796F;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .donation-form-container button:hover {
+            background-color: #84A98C;
+        }
+
+        .paypal-form, .credit-card-form {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .paypal-form input[type="submit"],
+        .credit-card-form button {
+            background-color: #52796F;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .paypal-form input[type="submit"]:hover,
+        .credit-card-form button:hover {
+            background-color: #354F52;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        hr {
+            margin: 40px 0;
+        }
+        
+   from { position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+/* List of links in the bar */
+.nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* تقليل المسافة بين العناصر */
+    padding: 0;
+    margin: 0;
+}
+}
+h2{ color: rgb(28, 53, 37);
+    text-align: center;}
+    </style>
+</head>
+<body>
+
+    <!--  Page header -->
+    <header>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about us.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+                <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login /Sign Up</a></li>
+                <li><a href="donate-medicine.html"><i class="fas fa-pills"></i> Donate Medicine</a></li>
+                <li><a href="order.html"><i class="fas fa-hand-holding-medical"></i> Request Medicine</a></li>
+                <li><a href="donate.html"><i class="fas fa-donate"></i> Donate Money</a></li>
+                <li><a href="FAQs - Medicine Donation.html"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                <li><a href="contact us.html"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                <li><a href="admin.html"><i class="fas fa-user-shield"></i> ADMIN</a></li>
+            </ul>
+        </nav>
+    </header>
+       
+  <br>
+  <br>      
+<!-- Banner Section -->
+<div class="banner">
+    <h1>Donate Money</h1>
+<br>
+<style>
+    /* Banner Section */
+.banner {
+    background: url('images/donate.jpg') no-repeat center center/cover, linear-gradient(to right, #84A98C, #52796F);
+    color: rgb(28, 53, 37);
+    text-align: center;
+    padding: 40px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.banner p {
+    font-size: 0.9em;
+    font-weight: 300;
+}
+</style>
+</div>
+        <div class="h2">   
+             <h2>Contribute to supporting those in need of medication and treatment through your donation.</h2>
+        </div>
+            <!-- Donation Section -->
+            <div class="donation-form-container">
+                  <form id="donation-method-form">
+                    <label for="donation-method">Choose a Payment Method:</label>
+                    <select id="donation-method" name="donation-method" required>
+                        <option value="">Select Payment Method</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="credit-card">Credit Card</option>
+                    </select>
+                </form>
+        
+                <!-- PayPal Donation Section -->
+                <div class="paypal-form">
+                    <h3>Donate via PayPal</h3>
+                    <form action="https://www.paypal.com/donate" method="post" target="_blank">
+                        <input type="hidden" name="business" value="your_paypal_account_address" />
+                        <input type="hidden" name="cmd" value="_s-xclick" />
+                        <input type="hidden" name="currency_code" value="SAR" />
+                        <label for="amount">Choose the Donation Amount:</label>
+                        <select name="amount" id="amount">
+                            <option value="10">SAR 10</option> 
+                            <option value="50">SAR 50</option>
+                            <option value="100">SAR 100</option> 
+                            <option value="150">SAR 150</option> 
+                        </select>
+                        <br><br>
+                        <input type="submit" value="Donate via PayPal" />
+                    </form>
+                </div>
+        
+                <!-- Credit Card Donation Section using Stripe -->
+                <div class="credit-card-form">
+                    <h3>Donate via Credit Card (Visa, MasterCard) using Stripe</h3>
+                    <form id="credit-card-form">
+                        <label for="credit-card-amount">Donation Amount:</label>
+                        <input type="number" id="credit-card-amount" min="1" required>
+                        <br><br>
+                        <label for="card-element">Credit or Debit Card:</label>
+                        <div id="card-element">
+                            <!-- Card details input field will appear here -->
+                        </div>
+                        <br><br>
+                        <button type="submit">Donate via Credit Card</button>
+                    </form>
+                </div>
+            </div>
+        
+        
+        
+    <script>
+        // Stripe setting
+        var stripe = Stripe('مفتاح_سترايب_العام'); //Use your public key from your Stripe account
+        var elements = stripe.elements();
+        var card = elements.create('card');
+        card.mount('#card-element');
+
+        // Show details based on payment method selection
+        document.getElementById('donation-method').addEventListener('change', function() {
+            var method = this.value;
+            if (method === 'paypal') {
+                document.querySelector('.paypal-form').style.display = 'block';
+                document.querySelector('.credit-card-form').style.display = 'none';
+            } else if (method === 'credit-card') {
+                document.querySelector('.credit-card-form').style.display = 'block';
+                document.querySelector('.paypal-form').style.display = 'none';
+            } else {
+                document.querySelector('.paypal-form').style.display = 'none';
+                document.querySelector('.credit-card-form').style.display = 'none';
+            }
+        });
+
+        //Donation processing with Stripe
+        var form = document.getElementById('credit-card-form');
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            var {token, error} = await stripe.createToken(card);
+            
+            if (error) {
+                alert(' error: ' + error.message);
+            } else {
+                // Send the token to your server
+                var amount = document.getElementById('credit-card-amount').value;
+                
+                fetch('/process-payment', {
+                    method: 'POST',
+                    body: JSON.stringify({ token: token.id, amount: amount }),
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function(response) {
+                    return response.json();
+                }).then(function(data) {
+                    alert('Thank you for your donation!');
+                }).catch(function(error) {
+                    alert('An error occurred while processing payment.');
+                });
+            }
+        });
+    </script>
+
+  <div class="p1">
+<p>Thank you for your donation to support the charitable project.</p>
+   </div>
+    <footer>
+        <p>© 2025 Your Charity Pharmacy. All Rights Reserved.</p>
+    
+    <style>
+        .p1 {  text-align: center;}
+        footer {
+            background: #2F3E46;/* Background color */
+            color: #FFFFFF;/* Text color */
+            text-align: center;
+            padding: 15px;
+            font-size: 20px;
+            margin-top: 50px;
+        }
+    </style>
+    </footer>
+    
+</body>
+</html>
+
+       

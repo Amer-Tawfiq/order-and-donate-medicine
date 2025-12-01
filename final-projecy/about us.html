@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Your Charity Pharmacy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+  <link rel="stylesheet" href="style.css">
+    <style>
+
+        /* ✅ تنسيق قسم "About Us" */
+        .about {
+            padding: 100px 20px 50px;
+            text-align: center;
+            background: var(--color1);
+        }
+
+        .about h1 {
+            font-size: 36px;
+            color: var(--color4);
+            margin-bottom: 20px;
+        }
+
+        .intro {
+            font-size: 18px;
+            color: var(--color3);
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .about-content {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .box {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: 0.3s ease-in-out;
+        }
+
+        .box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .box h2 {
+            color: var(--color4);
+            margin-bottom: 10px;
+        }
+
+        .box p {
+            color: var(--color3);
+        }
+
+        /* ✅ الفوتر */
+        footer {
+            padding: 15px;
+            background: var(--color5);
+            font-size: 20px;
+            color: var(--white);
+            margin-top: 50px;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- ✅ القائمة العلوية -->
+<header>
+    <!-- ✅ شريط التنقل -->
+    <nav>
+        <ul class="nav-links">
+            <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about us.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+            <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login /Sign Up</a></li>
+            <li><a href="donate-medicine.html"><i class="fas fa-pills"></i> Donate Medicine</a></li>
+            <li><a href="order.html"><i class="fas fa-hand-holding-medical"></i> Request Medicine</a></li>
+            <li><a href="donate.html"><i class="fas fa-donate"></i> Donate Money</a></li>
+            <li><a href="FAQs - Medicine Donation.html"><i class="fas fa-question-circle"></i> FAQ</a></li>
+            <li><a href="contact us.html"><i class="fas fa-envelope"></i> Contact Us</a></li>
+            <li><a href="admin.html"><i class="fas fa-user-shield"></i> ADMIN</a></li>
+        </ul>
+    </nav>
+</header>
+<!-- ✅ محتوى الصفحة -->
+<section class="about">
+    <h1>About Us</h1>
+    <p class="intro">Your Charity Pharmacy is dedicated to reducing medicine waste and ensuring surplus medicines reach those in need. We believe in a world where everyone has access to essential medications.</p>
+    <div class="about-content">
+        <div class="box">
+            <h2>Our Mission</h2>
+            <p>To facilitate the donation of surplus medicines and connect them with individuals, hospitals, and charities that need them.</p>
+        </div>
+        <div class="box">
+            <h2>Our Vision</h2>
+            <p>Creating a global impact by minimizing medicine waste and maximizing health benefits through responsible redistribution.</p>
+        </div>
+        <div class="box">
+            <h2>Our Team</h2>
+            <p>We are a group of passionate individuals, dedicated to improving access to healthcare through innovative solutions.</p>
+        </div>
+    </div>
+</section>
+<div>
+    <video width="640" height="360" controls>
+        <source src="images/video.mp4" type="video/mp4">
+
+</div>
+<!-- ✅ الفوتر -->
+<footer>
+    <p>©️ 2025 Your Charity Pharmacy. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs - Medicine Donation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap');
+
+        /* ✅ الألوان والتنسيقات العامة */
+        :root {
+    --color1: #cad2c5;
+    --color2: #84A98C;
+    --color3: #52796F;
+    --color4: #354F52;
+    --white: #ffffff;
+}
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #cad2c5;
+            color: #2F3E46;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+    background: rgba(255, 255, 255, 0.1); /* خلفية شفافة خفيفة */
+    backdrop-filter: blur(10px); /* تأثير الضبابية */
+    padding: 15px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+/* ✅ قائمة الروابط */
+.nav-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+}
+
+/* ✅ تنسيق كل عنصر */
+.nav-links li {
+    display: inline-block;
+}
+
+/* ✅ تصميم الأزرار */
+.nav-links li a {
+    text-decoration: none;
+    color: var(--white);
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 8px;
+    background: var(--color4); /* نفس اللون الغامق */
+    transition: all 0.3s ease-in-out;
+    display: inline-block;
+    font-size: 1em;
+    position: relative;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* ✅ تأثير عند تمرير الماوس */
+.nav-links li a:hover {
+    background: linear-gradient(135deg, var(--color3), var(--color2)); /* تدرج بلون أفتح */
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ✅ إضافة خط تحت العنصر عند التمرير */
+.nav-links li a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -3px;
+    width: 0;
+    height: 2px;
+    background: var(--color2); /* اللون الفاتح */
+    transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+}
+
+.nav-links li a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+/* ✅ تحسين التصميم للأجهزة الصغيرة */
+@media (max-width: 768px) {
+    .nav-links {
+        gap: 8px;
+    }
+
+    .nav-links li a {
+        padding: 8px 14px;
+        font-size: 0.9em;
+    }}
+        /* ✅ ضبط المسافة بين شريط المهام وصندوق الأسئلة */
+        body {
+            padding-top: 60px; /* حتى لا يغطي المحتوى بسبب position: fixed */
+        }
+
+        /* ✅ صندوق الأسئلة */
+        .faq-container {
+            width: 60%;
+            margin: 100px auto 20px;
+            background: #84A98C; /* لون صندوق الأسئلة */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .faq-icon {
+            font-size: 4rem;
+            color: #2F3E46;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #2F3E46;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+        }
+
+        .faq-question {
+            background: #52796F; /* لون زر السؤال */
+            color: white;
+            font-size: 1.2rem;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            cursor: pointer;
+            text-align: right;
+            border-radius: 5px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .faq-question:hover {
+            background: #354F52; /* لون أغمق عند التمرير */
+        }
+
+        .faq-question i {
+            margin-left: 10px;
+        }
+
+        .faq-answer {
+            display: none;
+            background: #354F52; /* لون الإجابة */
+            color: #CAD2C5; /* لون النص */
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 5px;
+            text-align: right;
+        }
+        footer {
+    background: #2F3E46; 
+    color: #FFFFFF;
+    text-align: center;
+    padding: 15px;
+    font-size: 20px;
+    position: fixed; /* يجعل الفوتر ثابتًا */
+    bottom: 0;
+    width: 100%;
+}
+
+    </style>
+</head>
+<body>
+
+    <header>
+      <!-- ✅ شريط التنقل -->
+      <nav>
+        <ul class="nav-links">
+            <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about us.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+            <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login /Sign Up</a></li>
+            <li><a href="donate-medicine.html"><i class="fas fa-pills"></i> Donate Medicine</a></li>
+            <li><a href="order.html"><i class="fas fa-hand-holding-medical"></i> Request Medicine</a></li>
+            <li><a href="donate.html"><i class="fas fa-donate"></i> Donate Money</a></li>
+            <li><a href="FAQs - Medicine Donation.html"><i class="fas fa-question-circle"></i> FAQ</a></li>
+            <li><a href="contact us.html"><i class="fas fa-envelope"></i> Contact Us</a></li>
+            <li><a href="admin.html"><i class="fas fa-user-shield"></i> ADMIN</a></li>
+        </ul>
+    </nav>
+    </header>
+<div class="faq-container">
+        <div class="faq-icon">
+            <i class="fas fa-question-circle"></i>
+        </div>
+        <h1>Frequently Asked Questions (FAQs)</h1>
+        <div class="faq-item">
+            <button class="faq-question">
+                How do I check the validity of medicines?
+                <i class="fas fa-question"></i>
+            </button>
+            <div class="faq-answer">Check the expiration date and store them properly in a suitable environment.</div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">
+                Is there a list of the most needed medicines?
+                <i class="fas fa-list"></i>
+            </button>
+            <div class="faq-answer">Yes, the list is updated regularly based on medical needs.</div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">
+                What are the available donation methods?
+                <i class="fas fa-hand-holding-heart"></i>
+            </button>
+            <div class="faq-answer">You can donate through accredited centers or by contacting us.</div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">
+                Can I donate opened medicine packages?
+                <i class="fas fa-box-open"></i>
+            </button>
+            <div class="faq-answer">Yes, but only if the medication is in its original packaging, properly stored, and has not been contaminated. Our team will inspect and ensure its safety before redistribution.</div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">
+                Are there any restrictions on the types of medicines accepted?
+                <i class="fas fa-ban"></i>
+            </button>
+            <div class="faq-answer">Yes, controlled substances and expired medicines cannot be accepted.</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const questions = document.querySelectorAll(".faq-question");
+
+            questions.forEach((question) => {
+                question.addEventListener("click", function () {
+                    document.querySelectorAll(".faq-answer").forEach((answer) => {
+                        if (answer !== this.nextElementSibling) {
+                            answer.style.display = "none";
+                        }
+                    });
+
+                    const answer = this.nextElementSibling;
+                    answer.style.display = answer.style.display === "block" ? "none" : "block";
+                });
+            });
+        });
+    </script>
+    <footer>
+        <p>© 2025 Your Charity Pharmacy. All Rights Reserved.</p>
+    </footer>
+    
+    <!-- ✅ تنسيق الفوتر (CSS) -->
+    <style>
+        footer {
+            background: #2F3E46; /* لون الخلفية */
+            color: #FFFFFF; /* لون النص */
+            text-align: center;
+            padding: 15px;
+            font-size: 20px;
+            margin-top: 50px;
+        }
+    </style>
+
+</body>
+</html>

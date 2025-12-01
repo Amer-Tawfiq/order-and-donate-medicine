@@ -1,0 +1,130 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Donate Medicine</title> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"> 
+     <link rel="stylesheet" href="medicine.css">
+
+
+</head> 
+<body> 
+ 
+    <header> 
+       <!-- ✅ شريط التنقل -->
+       <nav>
+        <ul class="nav-links">
+            <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about us.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+            <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login /Sign Up</a></li>
+            <li><a href="donate-medicine.html"><i class="fas fa-pills"></i> Donate Medicine</a></li>
+            <li><a href="order.html"><i class="fas fa-hand-holding-medical"></i> Request Medicine</a></li>
+            <li><a href="donate.html"><i class="fas fa-donate"></i> Donate Money</a></li>
+            <li><a href="FAQs - Medicine Donation.html"><i class="fas fa-question-circle"></i> FAQ</a></li>
+            <li><a href="contact us.html"><i class="fas fa-envelope"></i> Contact Us</a></li>
+            <li><a href="admin.html"><i class="fas fa-user-shield"></i> ADMIN</a></li>
+        </ul>
+    </nav>
+    </header> 
+ 
+    <div class="container">
+        <!-- ✅ أيقونة متحركة -->
+        <div class="donation-icon">
+            <i class="fas fa-hand-holding-medical"></i>
+        </div>
+    <h2>Donate Medicine</h2> 
+    <form id="donation-form" action="http://127.0.0.1/login_system/save_medicine.php" method="POST" enctype="multipart/form-data" > 
+        <div class="form-group">
+            <label for="medicine-name">Medicine Name:</label> 
+            <input type="text" id="medicine-name" name="name" placeholder="Enter medicine name"  required> 
+        </div> 
+        <div class="form-group"> 
+            <label for="quantity">Quantity:</label> 
+            <input type="number" id="quantity" name="quantity" placeholder="Enter quantity" required> 
+        </div> 
+        <div class="form-group"> 
+            <label for="expiry-date">Expiry Date:</label> 
+            <input type="date" id="expiry-date"  name="date"  required> 
+        </div> 
+        <div class="form-group"> 
+            <label for="image">Upload Image (Optional)</label> 
+            <input type="file" id="image" name="file" accept="image/*"> 
+        </div> 
+        <div class="button-group"> 
+            <button type="submit">Confirm Donation</button> 
+        </div> 
+    </form> 
+</div> 
+<!-- ✅ رسالة تأكيد الإرسال --> 
+<div id="success-message" class="success-message"> 
+    Donation submitted successfully! Thank you for your support✅ 
+</div> 
+ 
+<!-- <footer> 
+    <p>©️ 2025 Your Charity Pharmacy. All Rights Reserved.</p> 
+</footer>  -->
+ 
+<!-- <script>
+    document.getElementById("donation-form").addEventListener("submit", function(event) {
+     // منع إعادة تحميل الصفحة
+
+        // ✅ إخفاء المربع الأبيض
+        document.querySelector(".container").classList.add("hidden");
+
+        // ✅ عرض رسالة النجاح
+        document.getElementById("success-message").style.display = "block";
+
+        // ✅ إعادة عرض النموذج بعد 2 ثانية
+        setTimeout(function() {
+            document.getElementById("success-message").style.display = "none"; // إخفاء الرسالة
+            document.querySelector(".container").classList.remove("hidden"); // إظهار المربع الأبيض
+            document.getElementById("donation-form").reset(); // إعادة تعيين الحقول
+        }, 2000); // المدة بالمللي ثانية (2000 = 2 ثانية)
+    });
+</script> -->
+
+<script>
+    document.getElementById("donation-form").addEventListener("submit", async function(event) {
+        event.preventDefault(); // ✅ منع الإرسال التقليدي
+    
+        const form = event.target;
+        const formData = new FormData(form);
+    
+        try {
+            const response = await fetch('http://127.0.0.1/login_system/save_medicine.php', {
+                method: 'POST',
+                body: formData
+            });
+    
+            const result = await response.text(); // ✅ الآن هذا يعمل بدون no-cors
+            console.log(result);
+    
+            if (result.includes("✅")) {
+                // ✅ إخفاء النموذج
+                document.querySelector(".container").classList.add("hidden");
+    
+                // ✅ عرض الرسالة
+                const msg = document.getElementById("success-message");
+                msg.style.display = "block";
+    
+                // ✅ إعادة عرض النموذج بعد ثانيتين
+                setTimeout(() => {
+                    msg.style.display = "none";
+                    document.querySelector(".container").classList.remove("hidden");
+                    form.reset(); // تفريغ النموذج
+                }, 2000);
+            } else {
+                alert(result); // في حالة وجود رسالة خطأ
+            }
+    
+        } catch (error) {
+            console.error('❌ حدث خطأ أثناء الإرسال:', error);
+            alert('❌ حدث خطأ أثناء الإرسال.');
+        }
+    });
+    </script>
+    
+ 
+</body> 
+</html>

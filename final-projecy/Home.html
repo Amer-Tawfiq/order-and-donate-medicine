@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="home.css">
+    <title>Your Charity Pharmacy</title>
+    
+    <style>
+       
+    </style>
+</head>
+<body>
+<!-- ✅ شريط التنقل -->
+<nav>
+    <ul class="nav-links">
+        <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="about us.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+        <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login /Sign Up</a></li>
+        <li><a href="donate-medicine.html"><i class="fas fa-pills"></i> Donate Medicine</a></li>
+        <li><a href="order.html"><i class="fas fa-hand-holding-medical"></i> Request Medicine</a></li>
+        <li><a href="donate.html"><i class="fas fa-donate"></i> Donate Money</a></li>
+        <li><a href="FAQs - Medicine Donation.html"><i class="fas fa-question-circle"></i> FAQ</a></li>
+        <li><a href="contact us.html"><i class="fas fa-envelope"></i> Contact Us</a></li>
+        <li><a href="admin.html"><i class="fas fa-user-shield"></i> ADMIN</a></li>
+    </ul>
+</nav>
+
+    <!-- ✅ شريط النص المتحرك -->
+<div class="marquee">
+     Donate Medicine, Save Lives | Every Contribution Makes a Difference! | Together, We Build a Healthier World! 
+</div>
+
+    <!-- ✅ العنوان الرئيسي -->
+    <div class="site-name">
+        Your Charity Pharmacy
+    </div>
+
+    <!-- ✅ النص المكبّر -->
+    <div class="subtitle">
+        Helping People by Sharing Medicine
+    </div>
+<!-- ✅ قسم الفيدباك -->
+<section class="feedback-section">
+    <h2>User Feedback and Reviews</h2>
+
+    <!-- ✅ عرض التعليقات مع تأثير حركة -->
+    <div class="feedback-container" id="feedback-list">
+      
+    </div>
+
+    <!-- ✅ نموذج إضافة تعليق جديد -->
+    <div class="feedback-form">
+        <h3>Write Your Review</h3>
+        <input type="text" id="userNameInput" placeholder="Enter Your Name">
+        <textarea id="feedbackInput" placeholder="Your Feedback Here..." style="resize: none;"></textarea>
+
+        <!-- ✅ النجوم -->
+        <div class="rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+
+        <button class="submit-btn">Submit</button>
+
+        <p class="thank-you-message" id="thankyoumessage">🎉 Thank you for your feedback! 🎉</p>
+    </div>
+</section>
+
+
+<!-- ✅ تحسين جافا سكريبت -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let selectedRating = 0;
+    
+        // تحميل التعليقات من السيرفر
+        function loadFeedback() {
+            fetch('http://127.0.0.1/login_system/get_feedback.php')
+                .then(response => response.json())
+                .then(data => {
+                    const feedbackList = document.getElementById('feedback-list');
+                    feedbackList.innerHTML = ''; // مسح التعليقات القديمة
+                    data.forEach(feedback => {
+                        const box = document.createElement('div');
+                        box.className = 'feedback-box fade-in';
+                        box.innerHTML = `
+                            <img src="https://cdn-icons-png.flaticon.com/128/1144/1144760.png" alt="User Avatar">
+                            <p class="user-name"><strong>${feedback.user_name}</strong></p>
+                            <p>${feedback.comment}</p>
+                            <p class="stars">${'⭐'.repeat(feedback.rating)}</p>
+                        `;
+                        feedbackList.appendChild(box);
+                    });
+                })
+                .catch(error => console.error('Error loading feedback:', error));
+        }
+    
+        loadFeedback(); // استدعاء عند بداية التحميل
+    
+        // اختيار النجوم
+        document.querySelectorAll(".star").forEach(star => {
+            star.addEventListener("click", function () {
+                selectedRating = this.getAttribute("data-value");
+                document.querySelectorAll(".star").forEach(s => s.classList.remove("selected"));
+                for (let i = 0; i < selectedRating; i++) {
+                    document.querySelectorAll(".star")[i].classList.add("selected");
+                }
+            });
+        });
+    
+        // إرسال الفيدباك
+        document.querySelector(".submit-btn").addEventListener("click", function () {
+            const userName = document.getElementById("userNameInput").value.trim();
+            const userComment = document.getElementById("feedbackInput").value.trim();
+            const thankYouMessage = document.getElementById("thankyoumessage");
+    
+            if (userName === "" || userComment === "" || selectedRating == 0) {
+                alert("Please enter your name, comment, and select a rating before submitting!");
+                return;
+            }
+    
+            // إرسال البيانات إلى السيرفر
+            fetch('http://127.0.0.1/login_system/submit_feedback.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `user_name=${encodeURIComponent(userName)}&comment=${encodeURIComponent(userComment)}&rating=${selectedRating}`
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data === 'success') {
+                    document.getElementById("userNameInput").value = "";
+                    document.getElementById("feedbackInput").value = "";
+                    selectedRating = 0;
+                    document.querySelectorAll(".star").forEach(s => s.classList.remove("selected"));
+                    loadFeedback(); // إعادة تحميل التعليقات
+                    thankYouMessage.style.display = "block";
+                    setTimeout(() => { thankYouMessage.style.display = "none"; }, 2000);
+                } else {
+                    alert("Failed to submit feedback. Please try again later.");
+                }
+            })
+            .catch(error => console.error('Error submitting feedback:', error));
+        });
+    });
+    </script>
+    
+    <!-- ✅ الباقي مثل ما هو -->
+    <section class="stats">
+        <div class="stat">
+            <h2>200+</h2>
+            <p>Medicines Donated</p>
+        </div>
+        <div class="stat">
+            <h2>50+</h2>
+            <p>People Helped</p>
+        </div>
+        <div class="stat">
+            <h2>100+</h2>
+            <p>Charity Partners</p>
+        </div>
+    </section>
+    
+    <section class="subscribe">
+        <h2>Stay Updated</h2>
+        <p>Subscribe to receive updates on new donation campaigns.</p>
+        <input type="email" placeholder="Enter your email" required>
+        <button>Subscribe</button>
+    </section>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const subscribeBtn = document.querySelector(".subscribe button");
+        const emailInput = document.querySelector(".subscribe input");
+        const subscribeSection = document.querySelector(".subscribe");
+    
+        subscribeBtn.addEventListener("click", function () {
+            let userEmail = emailInput.value.trim();
+            if (userEmail === "") {
+                alert("Please enter a valid email address.");
+                return;
+            }
+            emailInput.style.display = "none";
+            subscribeBtn.style.display = "none";
+    
+            const confirmationMessage = document.createElement("div");
+            confirmationMessage.style.cssText = `
+                display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px;
+                border-radius:10px; background:#ffffff; color:#2F3E46; font-size:18px; font-weight:bold;
+                box-shadow:0 4px 10px rgba(0, 0, 0, 0.1); margin-top:10px; width:100%; text-align:center;
+            `;
+            const successIcon = document.createElement("i");
+            successIcon.className = "fas fa-check-circle";
+            successIcon.style.cssText = "color:#4CAF50; font-size:40px; margin-bottom:10px;";
+            const messageText = document.createElement("p");
+            messageText.textContent = "Thank you for subscribing! We will keep you updated with the latest news.";
+            messageText.style.marginTop = "10px";
+    
+            confirmationMessage.appendChild(successIcon);
+            confirmationMessage.appendChild(messageText);
+            subscribeSection.appendChild(confirmationMessage);
+        });
+    });
+    </script>
+    
+    <!-- ✅ الفوتر -->
+    <footer>
+        <p>©️ 2025 Your Charity Pharmacy. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

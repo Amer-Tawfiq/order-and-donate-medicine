@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Your Charity Pharmacy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 🎨 الألوان */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #cad2c5, #84a98c);
+            --primary-color: #52796F;
+            --dark-color: #2F3E46;
+            --white: #FFFFFF;
+            --highlight-color: #1B4332;
+        }
+
+        /* 🔹 ضبط الصفحة */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-gradient);
+            overflow: hidden;
+        }
+
+        /* ✅ شاشة الترحيب */
+        .splash {
+            width: 100%;
+            height: 100vh;
+            background: var(--bg-gradient);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 10000;
+        }
+
+        /* ✅ رسم الشعار */
+        .logo-container {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+        }
+
+        .logo-svg {
+            fill: none;
+            stroke: var(--white);
+            stroke-width: 4;
+            stroke-dasharray: 300;
+            stroke-dashoffset: 300;
+            animation: draw 3s forwards ease-in-out;
+        }
+
+        @keyframes draw {
+            from { stroke-dashoffset: 300; }
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* ✅ اسم الصيدلية */
+        .splash h1 {
+            font-size: 50px;
+            font-weight: bold;
+            color: var(--white);
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ✅ العبارة الترحيبية الجديدة (احترافية أكثر) */
+        .typing-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--white);
+            overflow: hidden;
+            white-space: nowrap;
+            width: 0;
+            display: inline-block;
+            border-right: 3px solid var(--white);
+            animation: typing 3s steps(50, end) forwards, blink 0.8s infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        /* ✅ زر الاستكشاف الجديد */
+        .splash button {
+            margin-top: 20px;
+            padding: 15px 35px;
+            background: var(--dark-color);
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out forwards, smoothScale 1.5s infinite alternate;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .splash button:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+            background: var(--highlight-color);
+        }
+
+        @keyframes smoothScale {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- ✅ شاشة الترحيب -->
+<div class="splash">
+    <!-- ✅ الشعار يتم رسمه من الصفر -->
+    <div class="logo-container">
+        <svg width="100%" height="100%" viewBox="0 0 64 64">
+            <path class="logo-svg" d="M32 2C15.43 2 2 15.43 2 32s13.43 30 30 30 30-13.43 30-30S48.57 2 32 2zm0 56C17.67 58 6 46.33 6 32S17.67 6 32 6s26 11.67 26 26-11.67 26-26 26zm12-34h-8V12h-8v12h-8v8h8v12h8V30h8v-8z"/>
+        </svg>
+    </div>
+
+    <!-- ✅ اسم الصيدلية -->
+    <h1>Your Charity Pharmacy</h1>
+
+    <!-- ✅ عبارة ترحيبية قوية ومؤثرة -->
+    <p class="typing-text">Spreading hope, one healing touch at a time.</p>
+
+    <!-- ✅ زر الاستكشاف الجديد -->
+    <a href="home.html">
+        <button>Explore Now</button>
+    </a>
+    
+</div>
+
+<script>
+    // ✅ تشغيل تأثيرات شاشة الترحيب
+    window.onload = function() {
+        setTimeout(() => {
+            document.querySelector('.splash h1').style.opacity = "1";
+
+            setTimeout(() => {
+                document.querySelector('.typing-text').style.animation = "typing 3s steps(50, end) forwards, blink 0.8s infinite";
+            }, 1500);
+
+            setTimeout(() => {
+                document.querySelector('.splash button').style.opacity = "1";
+            }, 3000);
+        }, 500);
+    };
+
+    // ✅ زر الاستكشاف (إخفاء شاشة الترحيب)
+    function hideSplash() {
+        document.querySelector('.splash').style.opacity = '0';
+        setTimeout(() => {
+            document.querySelector('.splash').style.display = 'none';
+        }, 1000);
+    }
+</script>
+
+</body>
+</html>

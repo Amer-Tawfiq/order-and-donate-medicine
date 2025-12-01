@@ -1,0 +1,112 @@
+        /* 🎨 الألوان */
+        :root {
+            --color1: #CAD2C5;
+            --color2: #84A98C;
+            --color3: #52796F;
+            --color4: #354F52;
+            --color5: #2F3E46;
+            --green-dark: #1B4332;
+            --white: #FFFFFF;
+        }
+
+        /* 🔹 ضبط الصفحة */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--color1), var(--color2));
+            color: var(--color3);
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        nav {
+    background: rgba(255, 255, 255, 0.1); /* خلفية شفافة خفيفة */
+    backdrop-filter: blur(10px); /* تأثير الضبابية */
+    padding: 15px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+/* ✅ قائمة الروابط */
+.nav-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+}
+
+/* ✅ تنسيق كل عنصر */
+.nav-links li {
+    display: inline-block;
+    flex-wrap: nowrap;
+}
+
+/* ✅ تصميم الأزرار */
+.nav-links li a {
+    text-decoration: none;
+    color: var(--white);
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 8px;
+    background: var(--color4); /* نفس اللون الغامق */
+    transition: all 0.3s ease-in-out;
+    display: inline-block;
+    font-size: 1em;
+    position: relative;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* ✅ تأثير عند تمرير الماوس */
+.nav-links li a:hover {
+    background: linear-gradient(135deg, var(--color3), var(--color2)); /* تدرج بلون أفتح */
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ✅ إضافة خط تحت العنصر عند التمرير */
+.nav-links li a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -3px;
+    width: 0;
+    height: 2px;
+    background: var(--color2); /* اللون الفاتح */
+    transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+}
+
+.nav-links li a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+/* ✅ تحسين التصميم للأجهزة الصغيرة */
+@media (max-width: 768px) {
+    .nav-links {
+        gap: 8px;
+    }
+
+    .nav-links li a {
+        padding: 8px 14px;
+        font-size: 0.9em;
+    }
+}
+
+footer {
+    background: #2F3E46; /* Background color */
+    color: #FFFFFF; /* Text color */
+    text-align: center;
+    padding: 15px;
+    font-size: 20px;
+    margin-top: 50px;
+}

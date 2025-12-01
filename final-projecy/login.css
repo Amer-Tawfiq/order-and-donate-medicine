@@ -1,0 +1,256 @@
+:root {
+    --main-bg: #f5f5f5;
+    --text-color: #354F52;
+    --container-bg: #fff;
+    --input-bg: #eef2f3;
+    --button-color: #52796F;
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    --text-color: #354F52;
+    --button-hover:#354F52;
+    ; /* يمكنك تغيير اللون */
+
+    
+
+
+    /*  الوان الازرار */
+
+             --color1: #CAD2C5;
+            --color2: #84A98C;
+            --color3: #52796F;
+            --color4: #2F3E46;
+            --green-dark: #1B4332;
+            --white: #FFFFFF;
+}
+
+
+*⁠  ⁠{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--main-bg);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 60px;
+}
+body {
+            font-family: Arial, sans-serif;
+            background-color: #cad2c5;
+            color: #2F3E46;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+    background: rgba(255, 255, 255, 0.1); /* خلفية شفافة خفيفة */
+    backdrop-filter: blur(10px); /* تأثير الضبابية */
+    padding: 15px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+/* ✅ قائمة الروابط */
+.nav-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+}
+
+/* ✅ تنسيق كل عنصر */
+.nav-links li {
+    display: inline-block;
+}
+
+/* ✅ تصميم الأزرار */
+.nav-links li a {
+    text-decoration: none;
+    color: var(--white);
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 8px;
+    background: var(--color4); /* نفس اللون الغامق */
+    transition: all 0.3s ease-in-out;
+    display: inline-block;
+    font-size: 1em;
+    position: relative;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* ✅ تأثير عند تمرير الماوس */
+.nav-links li a:hover {
+    background: linear-gradient(135deg, var(--color3), var(--color2)); /* تدرج بلون أفتح */
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ✅ إضافة خط تحت العنصر عند التمرير */
+.nav-links li a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -3px;
+    width: 0;
+    height: 2px;
+    background: var(--color2); /* اللون الفاتح */
+    transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+}
+
+.nav-links li a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+/* ✅ تحسين التصميم للأجهزة الصغيرة */
+@media (max-width: 768px) {
+    .nav-links {
+        gap: 8px;
+    }
+
+    .nav-links li a {
+        padding: 8px 14px;
+        font-size: 0.9em;
+    }}
+
+main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px; /* مساحة لشريط التنقل */
+    min-height: calc(100vh - 40px); /* لتغطية كامل الشاشة بعد شريط التنقل */
+}
+
+.container {
+    width: 300px; /* تقليل عرض الحاوية */
+    background: var(--container-bg);
+    padding: 20px; /* تقليل الحشوة */
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    display: none;
+}
+.container.active {
+    display: block;
+}
+
+.logo {
+    font-size: 60px;
+    color: var(--button-color);
+    margin-bottom: 15px;
+}
+
+h2 {
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+.form-group {
+    position: relative;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+
+.form-group input {
+    width: 80%;
+    height: 40px;
+    padding: 10px 10px 10px 40px; /* تقليل الحشوة الداخلية */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    background: var(--input-bg);
+    transition: border-color 0.3s ease;
+}
+.form-group input:focus {
+    border-color: var(--button-color);
+    outline: none;
+    box-shadow: 0 0 5px rgba(82, 121, 111, 0.5);
+}
+
+.form-group i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-color);
+    font-size: 16px;
+}
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.checkbox-group input {
+    margin-right: 10px;
+    width: 16px;
+    height: 16px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.button-group button {
+    flex: 1;
+    padding: 10px;
+    width: 48% !important;
+    margin: 5px;
+    background: var(--button-color);
+    color: var(--color1);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.button-group button:hover {
+    background: var(--button-hover);
+    
+}
+
+
+footer {
+    background: #2F3E46; /* لون الخلفية */
+    color: #FFFFFF; /* لون النص */
+    text-align: center;
+    padding: 10px;
+    font-size: 20px;
+    height: 20px;
+    width: 100%; /* التأكد من أن الـ footer يغطي عرض الصفحة بالكامل */
+    position: fixed; /* تثبيت الـ footer */
+
+    bottom: 0; /* جعله في أسفل الصفحة */
+    left: 0; /* التأكد من أنه يمتد على عرض الصفحة بالكامل */
+}
+
+ 

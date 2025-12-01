@@ -1,0 +1,381 @@
+ /* 🎨 الألوان */
+ :root {
+    --color1: #CAD2C5;
+    --color2: #84A98C;
+    --color3: #52796F;
+    --color4: #2F3E46;
+    --green-dark: #1B4332;
+    --white: #FFFFFF;
+}
+
+/* 🔹 ضبط الصفحة */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background: linear-gradient(135deg, #cad2c5, #84a98c);
+}
+/* شريط التنقل */
+nav {
+background: rgba(255, 255, 255, 0.1); /* خلفية شفافة خفيفة */
+backdrop-filter: blur(10px); /* تأثير الضبابية */
+padding: 15px 0;
+position: fixed;
+width: 100%;
+top: 0;
+z-index: 1000;
+display: flex;
+justify-content: center;
+flex-wrap: wrap;
+box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+/* ✅ قائمة الروابط */
+.nav-links {
+list-style: none;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+gap: 12px;
+padding: 0;
+margin: 0;
+}
+
+/* ✅ تنسيق كل عنصر */
+.nav-links li {
+display: inline-block;
+}
+
+/* ✅ تصميم الأزرار */
+.nav-links li a {
+text-decoration: none;
+color: var(--white);
+font-weight: 600;
+padding: 10px 18px;
+border-radius: 8px;
+background: var(--color4); /* نفس اللون الغامق */
+transition: all 0.3s ease-in-out;
+display: inline-block;
+font-size: 1em;
+position: relative;
+box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* ✅ تأثير عند تمرير الماوس */
+.nav-links li a:hover {
+background: linear-gradient(135deg, var(--color3), var(--color2)); /* تدرج بلون أفتح */
+color: white;
+transform: translateY(-2px);
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ✅ إضافة خط تحت العنصر عند التمرير */
+.nav-links li a::after {
+content: "";
+position: absolute;
+left: 50%;
+bottom: -3px;
+width: 0;
+height: 2px;
+background: var(--color2); /* اللون الفاتح */
+transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+}
+
+.nav-links li a:hover::after {
+width: 100%;
+left: 0;
+}
+
+/* ✅ تحسين التصميم للأجهزة الصغيرة */
+@media (max-width: 768px) {
+.nav-links {
+gap: 8px;
+}
+
+.nav-links li a {
+padding: 8px 14px;
+font-size: 0.9em;
+}
+}/* ✅ تحسين تصميم الشريط المتحرك */
+.marquee-container {
+position: absolute;
+top: 100px; /* إنزاله قليلاً */
+width: 100%;
+overflow: hidden;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+/* ✅ إعداد النص المتحرك */
+.marquee {
+background: transparent; /* الحفاظ على الخلفية الشفافة */
+color: #52796F; /* اللون الأغمق من لوحة الألوان */
+font-size: 1.4em; /* تكبير الخط */
+font-weight: bold;
+padding: 10px 0;
+position: absolute;
+top: 130px; /* إنزاله قليلاً */
+width: 100%;
+overflow: hidden;
+white-space: nowrap;
+text-align: center;
+animation: marquee 10s linear infinite;
+text-shadow: 0 0 10px rgba(82, 121, 111, 0.8), 0 0 20px rgba(82, 121, 111, 0.5); /* توهج احترافي */
+}
+
+/* ✅ حركة النص من اليمين لليسار */
+@keyframes marquee {
+0% { transform: translateX(100%); }
+100% { transform: translateX(-100%); }
+}
+/* ✅ العنوان الرئيسي */
+.site-name {
+    font-size: 3.5em;
+    font-weight: bold;
+    color: var(--color4);
+    margin-top: 200px;
+}
+
+/* ✅ تكبير النص المطلوب */
+.subtitle {
+    font-size: 1.8em;
+    color: var(--color3);
+    font-weight: 600;
+    margin-top: 50px;
+}
+
+/* ✅ الإحصائيات */
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 40px;
+    margin-top: 20px;
+}
+
+.stat {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 10px;
+    width: 200px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.stat h2 {
+    color: var(--green-dark);
+    margin-bottom: 5px;
+}
+
+/* ✅ نموذج الاشتراك */
+.subscribe {
+    padding: 30px;
+    background: var(--color4);
+    margin: 20px auto;
+    border-radius: 10px;
+    width: 50%;
+    text-align: center;
+}
+
+.subscribe h2, .subscribe p {
+    color: var(--white);
+}
+
+.subscribe input {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin-top: 10px;
+    width: 80%;
+    text-align: center;
+}
+
+.subscribe button {
+    background: var(--green-dark);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    margin-top: 10px;
+}
+
+.subscribe button:hover {
+    background: var(--color3);
+}
+
+/* ✅ الفوتر */
+footer {
+    padding: 15px;
+    background: var(--color4);
+    color: var(--white);
+    margin-top: 50px;
+    text-align: center;
+}
+/* ✅ أنيميشن النص المتحرك */
+@keyframes marquee {
+    from { transform: translateX(100%); }
+    to { transform: translateX(-100%); }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #CAD2C5;
+    color: #2F3E46;
+}
+
+.feedback-section {
+    max-width: 900px;
+    margin: auto;
+    background: #84A98C;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: white;
+    margin-top: 40px;
+}
+
+h2 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* ✅ جعل التعليقات تظهر بجانب بعضها باستخدام Flexbox */
+.feedback-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 10px;
+}
+
+.feedback-box {
+    width: 250px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    color: #2F3E46;
+}
+
+.fade-in {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+}
+
+.feedback-box img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+/* ✅ توسيط مستطيلات الكتابة */
+.feedback-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.feedback-form input, .feedback-form textarea {
+    width: 90%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    background: #ffffff;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: #2F3E46;
+}
+
+.rating {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.star {
+    font-size: 28px;
+    cursor: pointer;
+    color: lightgray;
+    transition: color 0.3s ease;
+}
+
+.star.selected {
+    color: gold;
+}
+
+.submit-btn {
+    background: #52796F;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.3s;
+    width: 90%;
+}
+
+.submit-btn:hover {
+    background: #354F52;
+}
+.thank-you-message {
+display: none; /* ✅ إخفاء الرسالة عند تحميل الصفحة */
+font-size: 18px;
+font-weight: bold;
+margin-top: 15px;
+color: #ffffff;
+background: #52796F;
+padding: 10px;
+border-radius: 10px;
+animation: pop 0.6s ease-in-out;
+}
+/* ✅ تحسين تنسيق رسالة الاشتراك */
+.subscribe {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+text-align: center;
+}
+
+.subscribe div {
+width: 80%; /* ✅ اجعله أضيق قليلاً من العرض الكامل */
+max-width: 500px; /* ✅ لا يتجاوز 500px حتى لا يكون عريضًا جدًا */
+padding: 20px;
+border-radius: 10px;
+background: #ffffff;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+text-align: center;
+}
+
+/* ✅ تحسين الأيقونة */
+.subscribe i {
+font-size: 50px;
+color: #4CAF50;
+margin-bottom: 10px;
+}
+
+/* ✅ تحسين تنسيق النص */
+.subscribe p {
+font-size: 18px;
+color: #2F3E46;
+font-weight: bold;
+margin: 0;
+}
